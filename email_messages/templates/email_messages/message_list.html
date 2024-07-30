@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список сообщений</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Список сообщений</h1>
+        <div id="progress-bar" class="progress mt-3">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" id="progress"></div>
+        </div>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>Тема</th>
+                    <th>Дата отправки</th>
+                    <th>Дата получения</th>
+                    <th>Описание</th>
+                </tr>
+            </thead>
+            <tbody id="message-table">
+                {% for message in messages %}
+                    <tr>
+                        <td>{{ message.subject }}</td>
+                        <td>{{ message.sent_date }}</td>
+                        <td>{{ message.received_date }}</td>
+                        <td>{{ message.body|truncatewords:10 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="websocket.js">
+        function updateProgress(checked, total) {
+            const percent = (checked / total) * 100;
+            $('#progress').css('width', percent + '%').text(checked + ' / ' + total);
+        }
+
+        // Пример кода для обновления прогресс-бара
+        let checked = 0;
+        const total = 100; // Общее количество писем, для примера
+
+        setInterval(() => {
+            if (checked < total) {
+                checked++;
+                updateProgress(checked, total);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

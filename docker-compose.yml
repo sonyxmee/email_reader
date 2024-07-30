@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    env_file: 
+      .env
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Данные будут сохраняться между перезапусками
+  
+  
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - ${PGADMIN_INNER_PORT}:${PGADMIN_OUTER_PORT}
+    depends_on:
+      - db   
+
+volumes:
+  postgres_data:
