@@ -1,4 +1,19 @@
 services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: django_email_reader
+    command: daphne -b 0.0.0.0 -p 8001 email_reader.asgi:application
+    environment:
+      - DJANGO_SETTINGS_MODULE=email_reader.settings
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/app
+    depends_on:
+          - db
+          - redis
   db:
     image: postgres:15-alpine
     restart: always
@@ -19,6 +34,13 @@ services:
       - ${PGADMIN_INNER_PORT}:${PGADMIN_OUTER_PORT}
     depends_on:
       - db   
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis_server
+    ports:
+      - "6379:6379"
+
 
 volumes:
   postgres_data:

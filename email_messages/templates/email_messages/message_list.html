@@ -6,13 +6,15 @@
     <title>Список сообщений</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="websocket.js"></script>
 </head>
 <body>
     <div class="container mt-5">
         <h1>Список сообщений</h1>
-        <div id="progress-bar" class="progress mt-3">
+        <div id="progress-bar">Прогресс: <span id="checked-count">0</span></div>
+        <!-- <div id="progress-bar" class="progress mt-3">
             <div class="progress-bar" role="progressbar" style="width: 0%;" id="progress"></div>
-        </div>
+        </div> -->
         <table class="table mt-3">
             <thead>
                 <tr>
@@ -35,7 +37,7 @@
         </table>
     </div>
 
-    <script src="websocket.js">
+    <!-- <script src="websocket.js">
         function updateProgress(checked, total) {
             const percent = (checked / total) * 100;
             $('#progress').css('width', percent + '%').text(checked + ' / ' + total);
@@ -51,6 +53,6 @@
                 updateProgress(checked, total);
             }
         }, 1000);
-    </script>
+    </script> -->
 </body>
 </html>

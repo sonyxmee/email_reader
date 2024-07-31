@@ -13,22 +13,17 @@ from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 from django.urls import path
-from email_messages.consumers import EmailConsumer
-# import channels.layers
-# from asgiref.sync import async_to_sync
+from email_messages import urls
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'email_reader.settings')
 
-# application = get_asgi_application()
 
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
     "websocket": AuthMiddlewareStack(
         URLRouter(
-            [
-                path("ws/email/", EmailConsumer.as_asgi()),
-            ]
+            urls.websocket_urlpatterns
         )
     ),
 })
